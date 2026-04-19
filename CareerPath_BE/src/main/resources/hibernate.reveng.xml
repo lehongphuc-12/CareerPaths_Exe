@@ -1,0 +1,44 @@
+<!DOCTYPE hibernate-reverse-engineering PUBLIC 
+"-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN"
+"http://hibernate.org/dtd/hibernate-reverse-engineering-3.0.dtd">
+
+<hibernate-reverse-engineering>
+
+    <!-- Chỉ lấy schema chính -->
+    <schema-selection match-schema="dbo"/>
+
+    <!-- USERS -->
+    <table name="roles"/>
+    <table name="genders"/>
+    <table name="users"/>
+    <table name="user_profiles"/>
+
+    <!-- SYSTEM CONFIG -->
+    <table name="booking_statuses"/>
+    <table name="roadmap_item_types"/>
+    <table name="course_levels"/>
+    <table name="center_types"/>
+    <table name="degrees"/>
+    <table name="test_types"/>
+
+    <!-- TEST -->
+    <table name="tests"/>
+    <table name="test_dimensions"/>
+    <table name="questions"/>
+    <table name="choices"/>
+    <table name="user_answers"/>
+
+    <!-- FACTOR -->
+    <table name="factor_types"/>
+    <table name="factors"/>
+    <table name="question_factors"/>
+
+    <!-- CAREER -->
+    <table name="careers"/>
+    <table name="career_factors"/>
+
+    <!-- SKILL -->
+    <table name="skills"/>
+    <table name="career_skills"/>
+
+</hibernate-reverse-engineering>

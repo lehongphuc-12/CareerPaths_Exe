@@ -8,7 +8,7 @@
 
 - **Frontend**: React.js / Next.js (TypeScript)
 - **Backend**: Java Spring Boot (Layered Architecture)
-- **Database**: PostgreSQL / MongoDB / MySQL (Database Normalization)
+- **Database**: MySQLserver
 - **State Management**: Redux Toolkit / Zustand / React Query
 - **Styling**: Tailwind CSS / CSS Modules
 
