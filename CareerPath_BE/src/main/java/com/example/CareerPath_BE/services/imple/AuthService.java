@@ -29,12 +29,16 @@ public class AuthService implements IAuthService {
 
     @Override
     public AuthResponse.UserResponse getMe(String token) {
-        if (token != null && token.startsWith("Bearer ")) {
+        if (token == null || token.isEmpty()) {
+            return null;
+        }
+
+        if (token.startsWith("Bearer ")) {
             token = token.substring(7);
         }
 
         if (!jwtUtil.validateToken(token)) {
-            throw new RuntimeException("Invalid token");
+            return null;
         }
 
         Long userId = jwtUtil.extractUserId(token);

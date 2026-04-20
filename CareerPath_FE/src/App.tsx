@@ -11,20 +11,24 @@ function App() {
   useEffect(() => {
     // Session recovery
     const initAuth = async () => {
-      // Use cached user as a hint that we might have a session cookie
-      if (authService.isAuthenticated()) {
-        try {
-          const user = await authApi.getMe();
+      try {
+        const user = await authApi.getMe();
+        if (user) {
           // Map API user to store user (adding defaults for level/xp)
           setUser({
             ...user,
             level: 1,
             xp: 0
           });
-        } catch (err) {
-          console.error('Session recovery failed:', err);
+          // Update persistence just in case
+          authService.saveAuth({ user });
+        }
+      } catch (err) {
+        // Only clear and log if we thought we were authenticated
+        if (authService.isAuthenticated()) {
+          console.warn('Session recovery failed:', err);
           authService.clearAuth();
-          setUser(null as any); 
+          setUser(null as any);
         }
       }
     };
