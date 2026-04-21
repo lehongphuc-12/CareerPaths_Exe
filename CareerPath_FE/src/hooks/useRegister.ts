@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { authApi } from '../api/authApi';
 import { authService } from '../services/authService';
 import { useStore } from '../store/useStore';
+import { toast } from '../store/useToastStore';
 import { RegisterRequest } from '../types/auth';
 
 export const useRegister = () => {
@@ -36,6 +37,7 @@ export const useRegister = () => {
     
     if (formData.password !== formData.confirmPassword) {
       setError('Mật khẩu xác nhận không khớp.');
+      toast.warning('Mật khẩu xác nhận không khớp.');
       return;
     }
 
@@ -52,9 +54,12 @@ export const useRegister = () => {
         level: 1,
         xp: 0
       });
+      toast.success('Đăng ký thành công!');
       navigate('/');
     } catch (err: any) {
-      setError(err.message || 'Đăng ký thất bại. Vui lòng kiểm tra lại thông tin.');
+      const msg = err.message || 'Đăng ký thất bại. Vui lòng kiểm tra lại thông tin.';
+      setError(msg);
+      toast.error(msg);
       console.error(err);
     } finally {
       setIsLoading(false);

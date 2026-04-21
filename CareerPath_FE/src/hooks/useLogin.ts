@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { authApi } from '../api/authApi';
 import { authService } from '../services/authService';
 import { useStore } from '../store/useStore';
+import { toast } from '../store/useToastStore';
 import { LoginRequest } from '../types/auth';
 
 export const useLogin = () => {
@@ -39,9 +40,12 @@ export const useLogin = () => {
         level: 1,
         xp: 0
       });
+      toast.success('Đăng nhập thành công!');
       navigate('/');
     } catch (err: any) {
-      setError(err.message || 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.');
+      const msg = err.message || 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.';
+      setError(msg);
+      toast.error(msg);
       console.error(err);
     } finally {
       setIsLoading(false);
@@ -60,9 +64,12 @@ export const useLogin = () => {
         level: 1,
         xp: 0
       });
+      toast.success('Đăng nhập Google thành công!');
       navigate('/');
     } catch (err: any) {
-      setError(err.message || 'Đăng nhập bằng Google thất bại. Vui lòng thử lại.');
+      const msg = err.message || 'Đăng nhập bằng Google thất bại. Vui lòng thử lại.';
+      setError(msg);
+      toast.error(msg);
       console.error(err);
     } finally {
       setIsLoading(false);

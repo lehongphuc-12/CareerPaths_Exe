@@ -2,6 +2,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { Rocket, Bell, Search, Menu, X, Sun, Moon, LogOut, ChevronDown } from 'lucide-react';
 import { authService } from '../../services/authService';
 import { useStore } from '../../store/useStore';
+import { toast } from '../../store/useToastStore';
 import { useState } from 'react';
 
 export default function Navbar() {
@@ -15,6 +16,7 @@ export default function Navbar() {
     setUser(null);
     setIsMenuOpen(false);
     setIsUserMenuOpen(false);
+    toast.success('Đã đăng xuất thành công!');
   };
 
   return (
