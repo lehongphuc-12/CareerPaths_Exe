@@ -39,7 +39,7 @@ export default function LoginPage() {
         <div className="absolute inset-0 bg-linear-to-br from-primary via-primary to-[#4f46e5]" />
         <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-96 h-96 bg-black/10 rounded-full blur-3xl" />
-        
+
         <div className="relative z-10 p-12 text-white max-w-xl text-center lg:text-left">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -52,12 +52,13 @@ export default function LoginPage() {
               </div>
               <span className="text-3xl font-black tracking-tighter">CareerPaths</span>
             </div>
-            
+
             <h1 className="text-5xl font-black leading-tight mb-6">
               Xây dựng tương lai <br /> theo cách của bạn
             </h1>
             <p className="text-xl text-white/80 font-medium mb-12">
-              Hệ thống định hướng nghề nghiệp thông minh giúp bạn khám phá bản thân và lộ trình phát triển sự nghiệp tối ưu nhất.
+              Hệ thống định hướng nghề nghiệp thông minh giúp bạn khám phá bản thân và lộ trình phát
+              triển sự nghiệp tối ưu nhất.
             </p>
 
             <div className="grid grid-cols-2 gap-6">
@@ -65,7 +66,10 @@ export default function LoginPage() {
                 { label: 'Chuyên nghiệp', value: '100+' },
                 { label: 'Đánh giá', value: '50k+' },
               ].map((stat, i) => (
-                <div key={i} className="p-6 bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl">
+                <div
+                  key={i}
+                  className="p-6 bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl"
+                >
                   <div className="text-3xl font-black mb-1">{stat.value}</div>
                   <div className="text-sm text-white/60 font-medium">{stat.label}</div>
                 </div>
@@ -77,12 +81,12 @@ export default function LoginPage() {
         {/* Floating Animation Elements */}
         <motion.div
           animate={{ y: [0, -20, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
           className="absolute top-1/4 right-20 w-12 h-12 bg-white/10 border border-white/20 rounded-xl backdrop-blur-md"
         />
         <motion.div
           animate={{ y: [0, 20, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
           className="absolute bottom-1/4 left-20 w-16 h-16 bg-white/10 border border-white/20 rounded-2xl backdrop-blur-md"
         />
       </div>
@@ -117,7 +121,7 @@ export default function LoginPage() {
             </motion.p>
           </div>
 
-          {/* Error Message */}
+          {/* Error Message
           {error && (
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
@@ -127,12 +131,14 @@ export default function LoginPage() {
               <div className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />
               {error}
             </motion.div>
-          )}
+          )} */}
 
           {/* Login Form */}
           <form className="space-y-6" onSubmit={handleLogin}>
             <motion.div variants={itemVariants} className="space-y-2">
-              <label className="text-sm font-black text-slate-700 dark:text-slate-300 ml-1">Email</label>
+              <label className="text-sm font-black text-slate-700 dark:text-slate-300 ml-1">
+                Email
+              </label>
               <div className="group relative">
                 <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors">
                   <Mail size={20} />
@@ -151,7 +157,9 @@ export default function LoginPage() {
 
             <motion.div variants={itemVariants} className="space-y-2">
               <div className="flex items-center justify-between ml-1">
-                <label className="text-sm font-black text-slate-700 dark:text-slate-300">Mật khẩu</label>
+                <label className="text-sm font-black text-slate-700 dark:text-slate-300">
+                  Mật khẩu
+                </label>
                 <button type="button" className="text-xs font-bold text-primary hover:underline">
                   Quên mật khẩu?
                 </button>
@@ -185,7 +193,10 @@ export default function LoginPage() {
                 id="remember"
                 className="w-5 h-5 rounded-lg border-slate-300 text-primary focus:ring-primary cursor-pointer"
               />
-              <label htmlFor="remember" className="text-sm font-bold text-slate-600 dark:text-slate-400 cursor-pointer">
+              <label
+                htmlFor="remember"
+                className="text-sm font-bold text-slate-600 dark:text-slate-400 cursor-pointer"
+              >
                 Ghi nhớ đăng nhập
               </label>
             </motion.div>
@@ -216,13 +227,15 @@ export default function LoginPage() {
                 <div className="w-full border-t border-slate-200 dark:border-slate-800" />
               </div>
               <div className="relative flex justify-center text-xs font-black uppercase tracking-widest">
-                <span className="px-4 bg-white dark:bg-background-dark text-slate-400">Hoặc tiếp tục với</span>
+                <span className="px-4 bg-white dark:bg-background-dark text-slate-400">
+                  Hoặc tiếp tục với
+                </span>
               </div>
             </div>
 
             <div className="flex justify-center">
               <GoogleLogin
-                onSuccess={credentialResponse => {
+                onSuccess={(credentialResponse) => {
                   if (credentialResponse.credential) {
                     handleGoogleLogin(credentialResponse.credential);
                   }
@@ -239,7 +252,10 @@ export default function LoginPage() {
           </motion.div>
 
           {/* Links */}
-          <motion.p variants={itemVariants} className="text-center text-sm font-bold text-slate-500">
+          <motion.p
+            variants={itemVariants}
+            className="text-center text-sm font-bold text-slate-500"
+          >
             Bạn chưa có tài khoản?{' '}
             <Link to="/register" className="text-primary hover:underline underline-offset-4">
               Đăng ký miễn phí

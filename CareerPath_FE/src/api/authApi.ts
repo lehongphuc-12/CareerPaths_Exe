@@ -3,6 +3,13 @@ import { authService } from '../services/authService';
 
 const BASE_URL = '/api/auth';
 
+interface ApiResponse<T> {
+  success: boolean;
+  code: number;
+  message?: string;
+  data: T;
+}
+
 export const authApi = {
   login: async (data: LoginRequest): Promise<AuthResponse> => {
     const response = await fetch(`${BASE_URL}/login`, {
@@ -11,11 +18,11 @@ export const authApi = {
       body: JSON.stringify(data),
       credentials: 'include',
     });
-    if (!response.ok) {
-      const err = await response.json().catch(() => null);
-      throw new Error(err?.message || 'Login failed');
+    const result: ApiResponse<AuthResponse> = await response.json().catch(() => null);
+    if (!response.ok || !result?.success) {
+      throw new Error(result?.message || 'Login failed');
     }
-    return response.json();
+    return result.data;
   },
 
   register: async (data: RegisterRequest): Promise<AuthResponse> => {
@@ -25,11 +32,11 @@ export const authApi = {
       body: JSON.stringify(data),
       credentials: 'include',
     });
-    if (!response.ok) {
-      const err = await response.json().catch(() => null);
-      throw new Error(err?.message || 'Registration failed');
+    const result: ApiResponse<AuthResponse> = await response.json().catch(() => null);
+    if (!response.ok || !result?.success) {
+      throw new Error(result?.message || 'Registration failed');
     }
-    return response.json();
+    return result.data;
   },
 
   loginWithGoogle: async (idToken: string): Promise<AuthResponse> => {
@@ -39,11 +46,11 @@ export const authApi = {
       body: JSON.stringify({ idToken }),
       credentials: 'include',
     });
-    if (!response.ok) {
-      const err = await response.json().catch(() => null);
-      throw new Error(err?.message || 'Google login failed');
+    const result: ApiResponse<AuthResponse> = await response.json().catch(() => null);
+    if (!response.ok || !result?.success) {
+      throw new Error(result?.message || 'Google login failed');
     }
-    return response.json();
+    return result.data;
   },
 
   getMe: async (): Promise<AuthResponse['user']> => {
@@ -51,7 +58,18 @@ export const authApi = {
       method: 'GET',
       credentials: 'include',
     });
-    if (!response.ok) throw new Error('Failed to fetch user session');
-    return response.json();
+    const result: ApiResponse<AuthResponse['user']> = await response.json().catch(() => null);
+    if (!response.ok || !result?.success) {
+      throw new Error('Failed to fetch user session');
+    }
+    return result.data;
+  },
+
+  logout: async (): Promise<void> => {
+    const response = await fetch(`${BASE_URL}/logout`, {
+      method: 'POST',
+      credentials: 'include',
+    });
+    if (!response.ok) throw new Error('Logout failed');
   },
 };

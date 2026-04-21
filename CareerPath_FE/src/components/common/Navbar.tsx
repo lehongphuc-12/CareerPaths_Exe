@@ -3,6 +3,7 @@ import { Rocket, Bell, Search, Menu, X, Sun, Moon, LogOut, ChevronDown } from 'l
 import { authService } from '../../services/authService';
 import { useStore } from '../../store/useStore';
 import { toast } from '../../store/useToastStore';
+import { authApi } from '../../api/authApi';
 import { useState } from 'react';
 
 export default function Navbar() {
@@ -10,7 +11,12 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await authApi.logout();
+    } catch (error) {
+      console.error('Logout API failed', error);
+    }
     authService.clearAuth();
     // @ts-ignore - setting user to null
     setUser(null);
@@ -111,11 +117,11 @@ export default function Navbar() {
                   className="flex items-center gap-3 p-1 rounded-2xl hover:bg-slate-100 dark:hover:bg-primary/10 transition-all"
                 >
                   <div className="flex flex-col items-end hidden sm:flex px-2">
-                    <span className="text-sm font-bold text-slate-700 dark:text-slate-200">{user.name}</span>
-                    <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Level {user.level}</span>
+                    <span className="text-sm font-bold text-slate-700 dark:text-slate-200">{user.name || 'User'}</span>
+                    <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Level {user.level || 1}</span>
                   </div>
                   <div className="w-10 h-10 bg-primary/10 border-2 border-primary/20 rounded-xl flex items-center justify-center text-primary font-black shadow-sm group-hover:scale-105 transition-transform">
-                    {user.name.charAt(0).toUpperCase()}
+                    {(user.name || 'U').charAt(0).toUpperCase()}
                   </div>
                   <ChevronDown size={16} className={`text-slate-400 transition-transform ${isUserMenuOpen ? 'rotate-180' : ''}`} />
                 </button>
@@ -193,11 +199,11 @@ export default function Navbar() {
               <>
                 <div className="flex items-center gap-4 px-4 py-3 bg-slate-50 dark:bg-slate-800/50 rounded-2xl mb-2">
                   <div className="w-12 h-12 bg-primary/10 border-2 border-primary/20 rounded-xl flex items-center justify-center text-primary font-black text-xl">
-                    {user.name.charAt(0).toUpperCase()}
+                    {(user.name || 'U').charAt(0).toUpperCase()}
                   </div>
                   <div className="flex flex-col">
-                    <span className="font-black text-slate-800 dark:text-white uppercase tracking-tight">{user.name}</span>
-                    <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold self-start mt-1">Level {user.level}</span>
+                    <span className="font-black text-slate-800 dark:text-white uppercase tracking-tight">{user.name || 'User'}</span>
+                    <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold self-start mt-1">Level {user.level || 1}</span>
                   </div>
                 </div>
                 <button
