@@ -1,6 +1,7 @@
 package com.example.CareerPath_BE.middlewares;
 
 import com.example.CareerPath_BE.config.JwtUtil;
+import com.example.CareerPath_BE.config.ApiConstants;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -33,7 +34,7 @@ public class JwtFilter extends OncePerRequestFilter {
     String path = request.getRequestURI();
 
     // ✅ bỏ qua public API
-    if (path.contains("/api/auth") || path.contains("/api/careers")) {
+    if (path.contains(ApiConstants.AUTH_BASE) || path.contains(ApiConstants.CAREER_BASE)) {
         filterChain.doFilter(request, response);
         return;
     }
