@@ -16,6 +16,7 @@ public class CareerDetailsResponseDto {
     private String name;
     private String description;
     private String image;
-    private BigDecimal avgSalary;
-    private Integer demandLevel;
+    private BigDecimal min_salary;
+    private BigDecimal max_salary;
+    private Integer demand_level;
 }

@@ -69,7 +69,7 @@ export default function CareerDetailPage() {
   }
 
   const isSaved = savedCareers.includes(career.careerId);
-  const demandInfo = career.demandLevel ? DEMAND_LABELS[career.demandLevel] : null;
+  const demandInfo = career.demand_level ? DEMAND_LABELS[career.demand_level] : null;
 
   return (
     <div className="space-y-12 py-10">
@@ -107,7 +107,7 @@ export default function CareerDetailPage() {
           <section className="space-y-6">
             <h2 className="text-3xl font-bold">Tổng quan</h2>
             <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
-              {career.description || 'Chưa có mô tả cho ngành nghề này.'}
+              {career.description}
             </p>
 
             {/* Stats */}
@@ -121,8 +121,8 @@ export default function CareerDetailPage() {
                     Lương trung bình
                   </p>
                   <p className="text-2xl font-black text-primary">
-                    {career.avgSalary
-                      ? `$${Number(career.avgSalary).toLocaleString()}`
+                    {career.min_salary && career.max_salary
+                      ? ` ${(Number(career.min_salary) / 1000000).toFixed(1)} - ${(Number(career.max_salary) / 1000000).toFixed(1)} trVND`
                       : 'Chưa cập nhật'}
                   </p>
                 </div>

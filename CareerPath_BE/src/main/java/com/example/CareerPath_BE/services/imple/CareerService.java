@@ -46,8 +46,9 @@ public class CareerService implements ICareerService {
                 career.getCareerId(),
                 career.getName(),
                 career.getDescription(),
-                "",
-                career.getAvgSalary(),
+                career.getImage(),
+                career.getMinSalary(),
+                career.getMaxSalary(),
                 career.getDemandLevel()
             )
         );
@@ -63,8 +64,9 @@ public class CareerService implements ICareerService {
             career.getCareerId(),
             career.getName(),
             career.getDescription(),
-            "",
-            career.getAvgSalary(),
+            career.getImage(),
+            career.getMinSalary(),
+            career.getMaxSalary(),
             career.getDemandLevel()
         );
     }

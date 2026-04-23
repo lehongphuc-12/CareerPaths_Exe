@@ -74,40 +74,63 @@ export default function CareerLibraryPage() {
             Không tìm thấy ngành nghề nào phù hợp với "{searchTerm}"
           </div>
         ) : (
-          careerPage?.content.map(career => (
-            <div key={career.careerId} className="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:border-primary/50 transition-all flex flex-col">
+          careerPage?.content.map((career) => (
+            <div
+              key={career.careerId}
+              className="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:border-primary/50 transition-all flex flex-col"
+            >
               <div className="h-48 overflow-hidden relative">
-                <img 
-                  src={career.image || 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop'} 
-                  alt={career.name} 
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                <img
+                  src={
+                    career.image ||
+                    'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop'
+                  }
+                  alt={career.name}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
-                <button 
+                <button
                   onClick={(e) => {
                     e.preventDefault();
-                    savedCareers.includes(career.careerId) ? unsaveCareer(career.careerId) : saveCareer(career.careerId);
+                    savedCareers.includes(career.careerId)
+                      ? unsaveCareer(career.careerId)
+                      : saveCareer(career.careerId);
                   }}
                   className={`absolute top-4 right-4 p-2 rounded-full backdrop-blur-md transition-colors ${savedCareers.includes(career.careerId) ? 'bg-primary text-white' : 'bg-black/20 text-white hover:bg-black/40'}`}
                 >
-                  <Bookmark size={20} fill={savedCareers.includes(career.careerId) ? "currentColor" : "none"} />
+                  <Bookmark
+                    size={20}
+                    fill={savedCareers.includes(career.careerId) ? 'currentColor' : 'none'}
+                  />
                 </button>
               </div>
               <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                 <div>
-                  <Link to={`/careers/${career.careerId}`} className="text-xl font-bold group-hover:text-primary transition-colors block">
+                  <Link
+                    to={`/careers/${career.careerId}`}
+                    className="text-xl font-bold group-hover:text-primary transition-colors block"
+                  >
                     {career.vietnameseName || career.name}
                   </Link>
-                  <p className="text-sm text-slate-500">{career.vietnameseName ? career.name : ''}</p>
+                  <p className="text-sm text-slate-500">
+                    {career.vietnameseName ? career.name : ''}
+                  </p>
                 </div>
-                <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-3">{career.description}</p>
+                <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-3">
+                  {career.description}
+                </p>
                 <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
                   <div className="flex flex-col">
                     <span className="text-[10px] text-slate-400 uppercase font-bold">Lương TB</span>
                     <span className="text-sm font-bold text-primary">
-                      {career.avgSalary ? `$${career.avgSalary.toLocaleString()}` : 'Chưa cập nhật'}
+                      {career.min_salary && career.max_salary
+                        ? ` ${(Number(career.min_salary) / 1000000).toFixed(1)} - ${(Number(career.max_salary) / 1000000).toFixed(1)} trVND`
+                        : 'Chưa cập nhật'}
                     </span>
                   </div>
-                  <Link to={`/careers/${career.careerId}`} className="text-primary font-bold text-sm flex items-center gap-1">
+                  <Link
+                    to={`/careers/${career.careerId}`}
+                    className="text-primary font-bold text-sm flex items-center gap-1"
+                  >
                     Chi tiết <Search size={14} />
                   </Link>
                 </div>
@@ -120,31 +143,31 @@ export default function CareerLibraryPage() {
       {!isLoading && careerPage && careerPage.totalPages > 1 && (
         <div className="flex justify-center items-center gap-4 pt-8 border-t border-slate-200 dark:border-slate-800">
           <button
-            onClick={() => setPage(p => Math.max(0, p - 1))}
+            onClick={() => setPage((p) => Math.max(0, p - 1))}
             disabled={careerPage.first}
             className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             <ChevronLeft size={24} />
           </button>
-          
+
           <div className="flex gap-2">
             {[...Array(careerPage.totalPages)].map((_, idx) => (
-               <button
-                 key={idx}
-                 onClick={() => setPage(idx)}
-                 className={`w-10 h-10 rounded-xl font-bold transition-colors ${
-                   page === idx 
-                     ? 'bg-primary text-white' 
-                     : 'bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700'
-                 }`}
-               >
-                 {idx + 1}
-               </button>
+              <button
+                key={idx}
+                onClick={() => setPage(idx)}
+                className={`w-10 h-10 rounded-xl font-bold transition-colors ${
+                  page === idx
+                    ? 'bg-primary text-white'
+                    : 'bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700'
+                }`}
+              >
+                {idx + 1}
+              </button>
             ))}
           </div>
 
           <button
-            onClick={() => setPage(p => Math.min(careerPage.totalPages - 1, p + 1))}
+            onClick={() => setPage((p) => Math.min(careerPage.totalPages - 1, p + 1))}
             disabled={careerPage.last}
             className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
@@ -155,4 +178,3 @@ export default function CareerLibraryPage() {
     </div>
   );
 }
-
