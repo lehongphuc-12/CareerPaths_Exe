@@ -112,31 +112,35 @@ export default function Navbar() {
           <div className="flex items-center gap-3">
             {user ? (
               <div className="relative group">
-                <button 
+                <button
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                   className="flex items-center gap-3 p-1 rounded-2xl hover:bg-slate-100 dark:hover:bg-primary/10 transition-all"
                 >
                   <div className="flex flex-col items-end hidden sm:flex px-2">
-                    <span className="text-sm font-bold text-slate-700 dark:text-slate-200">{user.name || 'User'}</span>
-                    <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Level {user.level || 1}</span>
+                    <span className="text-sm font-bold text-slate-700 dark:text-slate-200">
+                      {user.name || 'User'}
+                    </span>
                   </div>
                   <div className="w-10 h-10 bg-primary/10 border-2 border-primary/20 rounded-xl flex items-center justify-center text-primary font-black shadow-sm group-hover:scale-105 transition-transform">
                     {(user.name || 'U').charAt(0).toUpperCase()}
                   </div>
-                  <ChevronDown size={16} className={`text-slate-400 transition-transform ${isUserMenuOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown
+                    size={16}
+                    className={`text-slate-400 transition-transform ${isUserMenuOpen ? 'rotate-180' : ''}`}
+                  />
                 </button>
 
                 {isUserMenuOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-800 py-2 z-50">
-                    <Link 
-                      to="/profile" 
+                    <Link
+                      to="/profile"
                       className="flex items-center gap-3 px-4 py-3 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors font-bold"
                       onClick={() => setIsUserMenuOpen(false)}
                     >
                       Hồ sơ của tôi
                     </Link>
-                    <Link 
-                      to="/settings" 
+                    <Link
+                      to="/settings"
                       className="flex items-center gap-3 px-4 py-3 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors font-bold"
                       onClick={() => setIsUserMenuOpen(false)}
                     >
@@ -202,8 +206,9 @@ export default function Navbar() {
                     {(user.name || 'U').charAt(0).toUpperCase()}
                   </div>
                   <div className="flex flex-col">
-                    <span className="font-black text-slate-800 dark:text-white uppercase tracking-tight">{user.name || 'User'}</span>
-                    <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold self-start mt-1">Level {user.level || 1}</span>
+                    <span className="font-black text-slate-800 dark:text-white uppercase tracking-tight">
+                      {user.name || 'User'}
+                    </span>
                   </div>
                 </div>
                 <button
