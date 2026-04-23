@@ -15,6 +15,7 @@ import ChatPage from '../components/page/chat/ChatPage';
 import ChatListPage from '../components/page/chat/ChatListPage';
 import LoginPage from '../components/page/auth/LoginPage';
 import RegisterPage from '../components/page/auth/RegisterPage';
+import ProfilePage from '../components/page/profile/ProfilePage';
 import { PATHS } from './paths';
 
 const AppRoutes = () => {
@@ -35,6 +36,7 @@ const AppRoutes = () => {
         <Route path="chat/:mentorId" element={<ChatPage />} />
         <Route path={PATHS.BLOG.replace('/', '')} element={<BlogPage />} />
         <Route path={PATHS.DASHBOARD.replace('/', '')} element={<DashboardPage />} />
+        <Route path={PATHS.PROFILE.replace('/', '')} element={<ProfilePage />} />
         <Route path={PATHS.ABOUT.replace('/', '')} element={<AboutPage />} />
         <Route path={PATHS.CONTACT.replace('/', '')} element={<ContactPage />} />
       </Route>
