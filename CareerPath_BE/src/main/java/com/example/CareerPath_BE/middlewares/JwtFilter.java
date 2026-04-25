@@ -25,12 +25,21 @@ public class JwtFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getRequestURI();
+        return path.startsWith("/api/auth")
+                || path.startsWith("/api/careers")
+                || path.startsWith("/api/questions");
+    }
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain)
             throws ServletException, IOException {
-        
+
         String token = null;
 
-        // Try to get token from Cookie
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
                 if ("token".equals(cookie.getName())) {
@@ -40,7 +49,6 @@ public class JwtFilter extends OncePerRequestFilter {
             }
         }
 
-        // Fallback to Authorization header
         if (token == null) {
             String authHeader = request.getHeader("Authorization");
             if (authHeader != null && authHeader.startsWith("Bearer ")) {
@@ -48,15 +56,25 @@ public class JwtFilter extends OncePerRequestFilter {
             }
         }
 
-        if (token != null && jwtUtil.validateToken(token)) {
-            Long userId = jwtUtil.extractUserId(token);
-            List<String> roles = jwtUtil.extractRoles(token);
+        try {
+            if (token != null && jwtUtil.validateToken(token)) {
+                Long userId = jwtUtil.extractUserId(token);
+                List<String> roles = jwtUtil.extractRoles(token);
 
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                    userId, null, roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList())
-            );
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(
+                                userId,
+                                null,
+                                roles.stream()
+                                        .map(SimpleGrantedAuthority::new)
+                                        .collect(Collectors.toList())
+                        );
+
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+        } catch (Exception e) {
+            SecurityContextHolder.clearContext();
         }
 
         filterChain.doFilter(request, response);

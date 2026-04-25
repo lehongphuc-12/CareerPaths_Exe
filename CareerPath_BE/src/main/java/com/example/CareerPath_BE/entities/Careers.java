@@ -27,11 +27,17 @@ public class Careers  implements java.io.Serializable {
      @Column(name = "description")
      private String description;
 
-     @Column(name = "avg_salary")
-     private BigDecimal avgSalary;
+     @Column(name = "min_salary")
+     private BigDecimal min_salary;
+
+     @Column(name = "max_salary")
+     private BigDecimal max_salary;
 
      @Column(name = "demand_level")
      private Integer demandLevel;
+
+     @Column(name = "image")
+     private String image;  
 
      @OneToMany(fetch = FetchType.LAZY, mappedBy = "careers")
      private Set<CareerFactors> careerFactorses = new HashSet<>(0);
@@ -42,10 +48,11 @@ public class Careers  implements java.io.Serializable {
     public Careers() {
     }
 
-    public Careers(String name, String description, BigDecimal avgSalary, Integer demandLevel, Set<CareerFactors> careerFactorses, Set<CareerSkills> careerSkillses) {
+    public Careers(String name, String description, BigDecimal min_salary, BigDecimal max_salary, Integer demandLevel, Set<CareerFactors> careerFactorses, Set<CareerSkills> careerSkillses) {
        this.name = name;
        this.description = description;
-       this.avgSalary = avgSalary;
+       this.min_salary = min_salary;
+       this.max_salary = max_salary;
        this.demandLevel = demandLevel;
        this.careerFactorses = careerFactorses;
        this.careerSkillses = careerSkillses;
@@ -72,12 +79,20 @@ public class Careers  implements java.io.Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-    public BigDecimal getAvgSalary() {
-        return this.avgSalary;
+    public BigDecimal getMinSalary() {
+        return this.min_salary;
     }
-    
-    public void setAvgSalary(BigDecimal avgSalary) {
-        this.avgSalary = avgSalary;
+
+    public void setMinSalary(BigDecimal min_salary) {
+        this.min_salary = min_salary;
+    }
+
+    public BigDecimal getMaxSalary() {
+        return this.max_salary;
+    }
+
+    public void setMaxSalary(BigDecimal max_salary) {
+        this.max_salary = max_salary;
     }
     public Integer getDemandLevel() {
         return this.demandLevel;
@@ -101,8 +116,13 @@ public class Careers  implements java.io.Serializable {
         this.careerSkillses = careerSkillses;
     }
 
+    public String getImage() {
+        return image;
+    }
 
-
+    public void setImage(String image) {
+        this.image = image;
+    }
 
 }
 

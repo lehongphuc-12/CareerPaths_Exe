@@ -17,8 +17,8 @@ export default function LandingPage() {
           </span>
           Định hướng tương lai cho Gen Z
         </motion.div>
-        
-        <motion.h1 
+
+        <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
@@ -27,37 +27,55 @@ export default function LandingPage() {
           Khám phá bản thân, <br />
           <span className="text-primary">Chinh phục sự nghiệp</span>
         </motion.h1>
-        
-        <motion.p 
+
+        <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
           className="text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto"
         >
-          Nền tảng định hướng nghề nghiệp thông minh sử dụng AI để giúp học sinh THPT tìm thấy đam mê và lộ trình phát triển phù hợp nhất.
+          Nền tảng định hướng nghề nghiệp thông minh sử dụng AI để giúp học sinh THPT tìm thấy đam
+          mê và lộ trình phát triển phù hợp nhất.
         </motion.p>
 
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
           className="flex flex-wrap justify-center gap-4 pt-6"
         >
-          <Link to="/pre-test" className="bg-primary text-white px-10 py-4 rounded-xl font-bold text-lg hover:scale-105 transition-transform flex items-center gap-2 shadow-xl shadow-primary/20">
+          <Link
+            to="/pre-test"
+            className="bg-primary text-white px-10 py-4 rounded-xl font-bold text-lg hover:scale-105 transition-transform flex items-center gap-2 shadow-xl shadow-primary/20"
+          >
             Bắt đầu khám phá <ArrowRight size={20} />
           </Link>
-          <Link to="/careers" className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-10 py-4 rounded-xl font-bold text-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+          <Link
+            to="/careers"
+            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-10 py-4 rounded-xl font-bold text-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+          >
             Xem thư viện ngành
           </Link>
         </motion.div>
       </section>
 
-      <section className="grid md:grid-cols-4 gap-8">
+      <section className="grid md:grid-cols-3 w-full gap-8 items-center">
         {[
-          { icon: <Target className="text-blue-500" />, title: "Test Năng lực", desc: "Bài test chuyên sâu đánh giá 6 khía cạnh cốt lõi." },
-          { icon: <Users className="text-purple-500" />, title: "Kết nối Mentor", desc: "Trò chuyện cùng các chuyên gia hàng đầu trong ngành." },
-          { icon: <BookOpen className="text-emerald-500" />, title: "Lộ trình học", desc: "Kế hoạch hành động chi tiết cho từng giai đoạn." },
-          { icon: <Award className="text-orange-500" />, title: "Gamification", desc: "Tích lũy XP, thăng cấp và nhận huy hiệu thành tựu." }
+          {
+            icon: <Target className="text-blue-500" />,
+            title: 'Test Năng lực',
+            desc: 'Bài test chuyên sâu đánh giá 6 khía cạnh cốt lõi.',
+          },
+          {
+            icon: <Users className="text-purple-500" />,
+            title: 'Kết nối Mentor',
+            desc: 'Trò chuyện cùng các chuyên gia hàng đầu trong ngành.',
+          },
+          {
+            icon: <BookOpen className="text-emerald-500" />,
+            title: 'Lộ trình học',
+            desc: 'Kế hoạch hành động chi tiết cho từng giai đoạn.',
+          },
         ].map((feature, i) => (
           <motion.div
             key={i}

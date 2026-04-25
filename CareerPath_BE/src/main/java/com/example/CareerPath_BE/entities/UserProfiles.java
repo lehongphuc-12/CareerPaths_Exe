@@ -39,16 +39,24 @@ public class UserProfiles  implements java.io.Serializable {
      @Column(name = "bio")
      private String bio;
 
+     @Column(name = "address")
+     private String address;
+
+     @Column(name = "image")
+     private String image;  
+
     public UserProfiles() {
     }
 
-    public UserProfiles(Genders genders, Users users, Date dateOfBirth, String school, Integer grade, String bio) {
+    public UserProfiles(Genders genders, Users users, Date dateOfBirth, String school, Integer grade, String bio, String address, String image) {
        this.genders = genders;
        this.users = users;
        this.dateOfBirth = dateOfBirth;
        this.school = school;
        this.grade = grade;
        this.bio = bio;
+       this.address = address;
+       this.image = image;
     }
    
     public Integer getProfileId() {
@@ -100,9 +108,18 @@ public class UserProfiles  implements java.io.Serializable {
     public void setBio(String bio) {
         this.bio = bio;
     }
-
-
-
+    public String getImage() {
+        return this.image;
+    }
+    public void setImage(String image) {
+        this.image = image;
+    }
+    public String getAddress() {
+        return this.address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
 }
 

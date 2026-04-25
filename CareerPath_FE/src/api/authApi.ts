@@ -1,14 +1,8 @@
 import { LoginRequest, RegisterRequest, AuthResponse } from '../types/auth';
 import { authService } from '../services/authService';
+import { ApiResponse } from '../types/api';
 
 const BASE_URL = '/api/auth';
-
-interface ApiResponse<T> {
-  success: boolean;
-  code: number;
-  message?: string;
-  data: T;
-}
 
 export const authApi = {
   login: async (data: LoginRequest): Promise<AuthResponse> => {
