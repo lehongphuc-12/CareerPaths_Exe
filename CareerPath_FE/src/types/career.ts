@@ -3,8 +3,9 @@ export interface CareerDetails {
   name: string;
   description: string;
   image?: string;
-  avgSalary?: number;
-  demandLevel?: number;
+  min_salary?: number;
+  max_salary?: number;
+  demand_level?: number;
 }
 
 export interface Career {
@@ -12,10 +13,9 @@ export interface Career {
   name: string;
   description: string;
   image?: string;
-  avgSalary?: number;
-  demandLevel?: number;
-  // Mock data fallback or future specific field
-  vietnameseName?: string; 
+  min_salary?: number;
+  max_salary?: number;
+  demand_level?: number;
 }
 
 export interface PageResponse<T> {

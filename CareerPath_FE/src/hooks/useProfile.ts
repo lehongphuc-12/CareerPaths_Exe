@@ -8,6 +8,7 @@ export const useProfile = () => {
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
   const { addToast } = useToastStore();
+  const { user, setUser } = useStore();
 
   const fetchProfile = async () => {
     try {
@@ -15,7 +16,7 @@ export const useProfile = () => {
       const data = await userApi.getProfile();
       setProfile(data);
     } catch (error) {
-      addToast('Không thể tải thông tin hồ sơ', 'error');
+      addToast({ message: 'Không thể tải thông tin hồ sơ', type: 'error' });
     } finally {
       setLoading(false);
     }
@@ -30,10 +31,20 @@ export const useProfile = () => {
       setUpdating(true);
       const updatedProfile = await userApi.updateProfile(data);
       setProfile(updatedProfile);
-      addToast('Cập nhật hồ sơ thành công', 'success');
+
+      // Update global auth store
+      if (user) {
+        setUser({
+          ...user,
+          name: updatedProfile.fullName,
+          avatar: updatedProfile.image,
+        });
+      }
+
+      addToast({ message: 'Cập nhật hồ sơ thành công', type: 'success' });
       return true;
     } catch (error) {
-      addToast('Cập nhật hồ sơ thất bại', 'error');
+      addToast({ message: 'Cập nhật hồ sơ thất bại', type: 'error' });
       return false;
     } finally {
       setUpdating(false);
@@ -45,11 +56,12 @@ export const useProfile = () => {
       setUpdating(true);
       const { avatarUrl } = await userApi.uploadAvatar(file);
       if (profile) {
-        setProfile({ ...profile, avatarUrl });
+        setProfile({ ...profile, image: avatarUrl });
       }
-      addToast('Cập nhật ảnh đại diện thành công', 'success');
+      return avatarUrl;
     } catch (error) {
-      addToast('Cập nhật ảnh đại diện thất bại', 'error');
+      addToast({ message: 'Cập nhật ảnh đại diện thất bại', type: 'error' });
+      return null;
     } finally {
       setUpdating(false);
     }

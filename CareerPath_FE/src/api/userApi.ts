@@ -1,41 +1,51 @@
+import axios from 'axios';
 import { UserProfile, UpdateProfileRequest } from '../types/user';
+import { ApiResponse } from '../types/api';
 
 const BASE_URL = '/api/users';
 
-// Mock data for development
-let mockProfile: UserProfile = {
-  id: '1',
-  fullName: 'Lê Hồng Phúc',
-  email: 'phuc.lh@example.com',
-  bio: 'Sinh viên FPT University, đam mê lập trình và phát triển bản thân.',
-  gender: 'Male',
-  dateOfBirth: '2003-04-23',
-  school: 'FPT University',
-  grade: 3,
-  avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200',
-  level: 5,
-  xp: 450,
-};
-
 export const userApi = {
   getProfile: async (): Promise<UserProfile> => {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 500));
-    return { ...mockProfile };
+    try {
+      const response = await axios.get<ApiResponse<UserProfile>>(BASE_URL + '/profile/me');
+      if (!response.data.success) {
+        throw new Error(response.data.message || 'Failed to fetch profile');
+      }
+      return response.data.data;
+    } catch (error) {
+      throw error;
+    }
   },
 
   updateProfile: async (data: UpdateProfileRequest): Promise<UserProfile> => {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 800));
-    mockProfile = { ...mockProfile, ...data };
-    return { ...mockProfile };
-  },
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      if (value === undefined || value === null || value === '') return;
 
+      if (key === 'image') {
+        if (value instanceof File && value.size > 0) {
+          formData.append(key, value);
+        }
+      } else {
+        formData.append(key, String(value));
+      }
+    });
+
+    const response = await axios.put<ApiResponse<UserProfile>>(`${BASE_URL}/profile`, formData, {
+      withCredentials: true,
+    });
+    return response.data.data;
+  },
   uploadAvatar: async (file: File): Promise<{ avatarUrl: string }> => {
-    // Mock avatar upload
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    const url = URL.createObjectURL(file);
-    mockProfile.avatarUrl = url;
-    return { avatarUrl: url };
-  }
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await axios.post<ApiResponse<{ avatarUrl: string }>>(
+      `${BASE_URL}/avatar`,
+      formData,
+      {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      }
+    );
+    return response.data.data;
+  },
 };

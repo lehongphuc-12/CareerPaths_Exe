@@ -11,6 +11,7 @@ import {
   X,
   Trophy,
   Target,
+  MapPin,
 } from 'lucide-react';
 import { useProfile } from '../../../hooks/useProfile';
 import { Button } from '../../common/Button';
@@ -21,6 +22,7 @@ const ProfilePage: React.FC = () => {
   const { profile, loading, updating, updateProfile, uploadAvatar } = useProfile();
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState<any>({});
+  const [selectedAvatar, setSelectedAvatar] = useState<File | null>(null);
 
   const handleStartEdit = () => {
     if (profile) {
@@ -31,22 +33,48 @@ const ProfilePage: React.FC = () => {
         grade: profile.grade || 0,
         gender: profile.gender || '',
         dateOfBirth: profile.dateOfBirth || '',
+        address: profile.address || '',
+        image: profile.image || '',
       });
+      setSelectedAvatar(null);
       setIsEditing(true);
     }
   };
 
   const handleSave = async () => {
-    const success = await updateProfile(editData);
+    const dataToUpdate = { ...editData };
+
+    if (selectedAvatar) {
+      dataToUpdate.image = selectedAvatar;
+    }
+
+    const success = await updateProfile(dataToUpdate);
     if (success) {
       setIsEditing(false);
+      setSelectedAvatar(null);
     }
   };
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      uploadAvatar(file);
+      const previewUrl = URL.createObjectURL(file);
+      if (!isEditing && profile) {
+        setEditData({
+          fullName: profile.fullName,
+          bio: profile.bio || '',
+          school: profile.school || '',
+          grade: profile.grade || 0,
+          gender: profile.gender || '',
+          dateOfBirth: profile.dateOfBirth || '',
+          address: profile.address || '',
+          image: previewUrl,
+        });
+        setIsEditing(true);
+      } else {
+        setEditData((prev: any) => ({ ...prev, image: previewUrl }));
+      }
+      setSelectedAvatar(file);
     }
   };
 
@@ -58,7 +86,7 @@ const ProfilePage: React.FC = () => {
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Header Section */}
         <ProfileHeader
-          profile={profile}
+          profile={isEditing ? { ...profile, image: editData.image } : profile}
           isEditing={isEditing}
           onEdit={handleStartEdit}
           onSave={handleSave}
@@ -75,7 +103,7 @@ const ProfilePage: React.FC = () => {
                 <Target className="icon text-red-500" /> Mục tiêu nghề nghiệp
               </h3>
               <div className="space-y-3">
-                {['Phần mềm', 'AI Engineer', 'Data Science'].map((goal, idx) => (
+                {[].map((goal, idx) => (
                   <div key={idx} className="tag">
                     <div className="w-2 h-2 rounded-full bg-blue-500"></div>
                     {goal}
@@ -120,6 +148,11 @@ const ProfilePage: React.FC = () => {
                       icon={<School />}
                       label="Khối/Lớp"
                       value={profile.grade ? `Khối ${profile.grade}` : 'Chưa cập nhật'}
+                    />
+                    <InfoItem
+                      icon={<MapPin />}
+                      label="Địa chỉ"
+                      value={profile.address || 'Chưa cập nhật'}
                     />
                     <div className="md:col-span-2">
                       <InfoItem
@@ -176,6 +209,11 @@ const ProfilePage: React.FC = () => {
                         setEditData({ ...editData, grade: parseInt(e.target.value) })
                       }
                     />
+                    <Input
+                      label="Địa chỉ"
+                      value={editData.address}
+                      onChange={(e) => setEditData({ ...editData, address: e.target.value })}
+                    />
                     <div className="md:col-span-2 space-y-1.5">
                       <label className="text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">
                         Giới thiệu bản thân
@@ -227,8 +265,7 @@ const ProfileHeader = ({
               <div className="h-28 w-28 md:h-32 md:w-32 rounded-full border-4 border-white dark:border-slate-800 overflow-hidden shadow-lg">
                 <img
                   src={
-                    profile.avatarUrl ||
-                    'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde'
+                    profile.image || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde'
                   }
                   className="h-full w-full object-cover"
                   alt="Avatar"

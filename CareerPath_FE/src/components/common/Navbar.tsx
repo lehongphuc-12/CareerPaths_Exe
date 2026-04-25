@@ -121,8 +121,12 @@ export default function Navbar() {
                       {user.name || 'User'}
                     </span>
                   </div>
-                  <div className="w-10 h-10 bg-primary/10 border-2 border-primary/20 rounded-xl flex items-center justify-center text-primary font-black shadow-sm group-hover:scale-105 transition-transform">
-                    {(user.name || 'U').charAt(0).toUpperCase()}
+                  <div className="w-10 h-10 bg-primary/10 border-2 border-primary/20 rounded-xl flex items-center justify-center text-primary font-black shadow-sm group-hover:scale-105 transition-transform overflow-hidden">
+                    {user.avatar ? (
+                      <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                    ) : (
+                      (user.name || 'U').charAt(0).toUpperCase()
+                    )}
                   </div>
                   <ChevronDown
                     size={16}
@@ -202,8 +206,12 @@ export default function Navbar() {
             {user ? (
               <>
                 <div className="flex items-center gap-4 px-4 py-3 bg-slate-50 dark:bg-slate-800/50 rounded-2xl mb-2">
-                  <div className="w-12 h-12 bg-primary/10 border-2 border-primary/20 rounded-xl flex items-center justify-center text-primary font-black text-xl">
-                    {(user.name || 'U').charAt(0).toUpperCase()}
+                  <div className="w-12 h-12 bg-primary/10 border-2 border-primary/20 rounded-xl flex items-center justify-center text-primary font-black text-xl overflow-hidden">
+                    {user.avatar ? (
+                      <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                    ) : (
+                      (user.name || 'U').charAt(0).toUpperCase()
+                    )}
                   </div>
                   <div className="flex flex-col">
                     <span className="font-black text-slate-800 dark:text-white uppercase tracking-tight">

@@ -9,6 +9,7 @@ interface User {
   role: string;
   level: number;
   xp: number;
+  avatar?: string;
 }
 
 interface TestResult {

@@ -9,8 +9,10 @@ import com.example.CareerPath_BE.config.JwtUtil;
 import com.example.CareerPath_BE.repositories.UsersRepository;
 import com.example.CareerPath_BE.entities.Users;
 import com.example.CareerPath_BE.repositories.RolesRepository;
+import com.example.CareerPath_BE.repositories.UserProfilesRepository;
 import com.example.CareerPath_BE.entities.Users;
 import com.example.CareerPath_BE.entities.Roles;
+import com.example.CareerPath_BE.entities.UserProfiles;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -29,6 +31,7 @@ import java.util.List;
 public class AuthService implements IAuthService {
     private final UsersRepository userRepository;
     private final RolesRepository roleRepository;
+    private final UserProfilesRepository userProfilesRepository;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
 
@@ -84,8 +87,13 @@ public class AuthService implements IAuthService {
         Roles userRole = roleRepository.findByName("USER")
                 .orElseGet(() -> roleRepository.save(new Roles("USER")));
         newUser.setRoles(userRole);
-
+        
         Users savedUser = userRepository.save(newUser);
+
+        // Create user profile
+        UserProfiles newUserProfiles = new UserProfiles();
+        newUserProfiles.setUsers(savedUser);
+        userProfilesRepository.save(newUserProfiles);
 
         String token = jwtUtil.generateToken(Long.valueOf(savedUser.getUserId()),
                 Collections.singletonList(savedUser.getRoles().getName()));
@@ -117,6 +125,7 @@ public class AuthService implements IAuthService {
             GoogleIdToken.Payload payload = googleIdToken.getPayload();
             String email = payload.getEmail();
             String fullName = (String) payload.get("name");
+            String avatar = (String) payload.get("picture");
 
             Users user = userRepository.findByEmail(email)
                     .orElseGet(() -> {
@@ -129,8 +138,14 @@ public class AuthService implements IAuthService {
                         Roles userRole = roleRepository.findByName("USER")
                                 .orElseGet(() -> roleRepository.save(new Roles("USER")));
                         newUser.setRoles(userRole);
-                        
-                        return userRepository.save(newUser);
+                        userRepository.save(newUser);
+
+                        UserProfiles newUserProfiles = new UserProfiles();
+                        newUserProfiles.setUsers(newUser);
+                        newUserProfiles.setImage(avatar);
+                        userProfilesRepository.save(newUserProfiles);
+
+                        return newUser;
                     });
 
             String token = jwtUtil.generateToken(Long.valueOf(user.getUserId()), 

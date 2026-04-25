@@ -1,5 +1,5 @@
 export interface UserProfile {
-  id: string;
+  id: number;
   fullName: string;
   email: string;
   avatarUrl?: string;
@@ -8,11 +8,9 @@ export interface UserProfile {
   dateOfBirth?: string;
   school?: string;
   grade?: number;
-  phone?: string;
-  level?: number;
-  xp?: number;
+  address?: string;
+  image?: string;
 }
-
 export interface UpdateProfileRequest {
   fullName?: string;
   bio?: string;
@@ -20,5 +18,7 @@ export interface UpdateProfileRequest {
   dateOfBirth?: string;
   school?: string;
   grade?: number;
+  address?: string;
   phone?: string;
+  image?: File | string;
 }

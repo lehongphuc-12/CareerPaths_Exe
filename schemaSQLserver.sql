@@ -55,11 +55,13 @@ ALTER COLUMN password_hash NVARCHAR(255) NULL;
 CREATE TABLE user_profiles (
     profile_id INT IDENTITY PRIMARY KEY,
     user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
+    image VARCHAR(255), 
     date_of_birth DATE,
     gender_id INT REFERENCES genders(gender_id),
-    school VARCHAR(255),
+    school NVARCHAR(255),
     grade INT,
-    bio NVARCHAR(MAX)
+    bio NVARCHAR(MAX),
+    address NVARCHAR(255)
 );
 
 -- =========================
