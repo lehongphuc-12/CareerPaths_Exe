@@ -1,40 +1,46 @@
-# OS generated files
+# ==========================================
+# Hệ điều hành (OS generated files)
+# ==========================================
 .DS_Store
 .DS_Store?
 ._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
+ehthumbs.db
 
-# IDEs and Editors
+# ==========================================
+# IDEs và Editors (VS Code, IntelliJ, Eclipse)
+# ==========================================
 .idea/
 .vscode/
 *.swp
 *.swo
 *~
-*.suo
-*.user
+.classpath
+.project
+.settings/
+.factorypath
+bin/
+*.launch
 
-# Node / React / Vite (Frontend)
-node_modules/
-dist/
-dist-ssr/
-*.local
-.npm
-.eslintcache
-.stylelintcache
-
-# Logs
-logs
-*.log
+# ==========================================
+# Node / React / Vite (Frontend - CareerPath_FE)
+# ==========================================
+**/node_modules/
+**/dist/
+**/dist-ssr/
+**/.eslintcache
+**/.stylelintcache
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Java / Spring Boot / Maven (Backend)
-target/
+# ==========================================
+# Java / Spring Boot / Maven (Backend - CareerPath_BE)
+# ==========================================
+**/target/
+**/build/
+**/out/
 *.class
 *.jar
 *.war
@@ -42,18 +48,23 @@ target/
 *.nar
 .mtj.tmp/
 
-# Eclipse
-.classpath
-.project
-.settings/
-.factorypath
-bin/
+# CẤU HÌNH QUAN TRỌNG: Chặn file cấu hình nhạy cảm
+**/src/main/resources/application.properties
+**/src/main/resources/application.yml
 
-# Environment Variables
+# ==========================================
+# Biến môi trường và Bảo mật (Secrets)
+# ==========================================
 .env
-.env.*
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
 !.env.example
 
-# Out folders
-out/
-build/
+# ==========================================
+# Khác
+# ==========================================
+.temp/
+.tmp/
